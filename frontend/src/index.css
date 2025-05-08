@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global override to ensure form fields have white background and dark text */
+input,
+textarea,
+select {
+  background-color: #ffffff;
+  color: #333333;
+}
+
+/* Placeholder text color override */
+input::placeholder,
+textarea::placeholder {
+  color: #999999;
+}

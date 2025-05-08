@@ -1,0 +1,263 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 1rem;
+}
+
+.navbar-logo h1 {
+  color: #fff;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar-links li {
+  display: inline;
+}
+
+.navbar-links a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-links a:hover {
+  text-decoration: underline;
+}
+
+/* Modern Navbar Styling */
+.home-ul {
+  background: linear-gradient(135deg, #1c6e2a, #2a9d38, #52b788);
+  padding: 15px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  flex-wrap: wrap;
+}
+
+.home-ul ul {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+.home-ll {
+  margin: 0 10px;
+  position: relative;
+}
+
+.home-ll.logo {
+  margin-right: auto;
+}
+
+.home-ll.logo h1 {
+  font-size: 1.5rem;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.home-a {
+  text-decoration: none;
+  color: #ffffff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.home-ll h1 {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.3s ease;
+}
+
+.home-ll h1:hover {
+  transform: translateY(-3px);
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.4);
+}
+
+.home-a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+.home-a.active h1 {
+  background-color: #155d27;
+  padding: 10px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Admin-specific styles */
+.admin-link h1 {
+  color: #eaff96;
+}
+
+.admin-badge {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background-color: #d8f3dc;
+  color: #155d27;
+  font-size: 0.65rem;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 12px;
+  animation: pulse 2s infinite;
+}
+
+/* Pulsing animation for the admin badge */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 5px rgba(40, 167, 69, 0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Hamburger Menu Toggle */
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  z-index: 1001;
+  margin-left: auto;
+}
+
+.hamburger {
+  width: 25px;
+  height: 20px;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger span {
+  display: block;
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background: white;
+  border-radius: 3px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: .25s ease-in-out;
+}
+
+.hamburger span:nth-child(1) {
+  top: 0px;
+}
+
+.hamburger span:nth-child(2) {
+  top: 8px;
+}
+
+.hamburger span:nth-child(3) {
+  top: 16px;
+}
+
+.hamburger.active span:nth-child(1) {
+  top: 8px;
+  transform: rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  top: 8px;
+  transform: rotate(-45deg);
+}
+
+/* Media queries for responsive design */
+@media screen and (max-width: 768px) {
+  .home-ul {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+    position: relative;
+  }
+  
+  .menu-toggle {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+  
+  .home-ul ul {
+    flex-direction: column;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+    opacity: 0;
+  }
+  
+  .home-ul ul.menu-open {
+    max-height: 800px;
+    opacity: 1;
+    margin-top: 50px;
+  }
+  
+  .home-ll {
+    margin: 8px 0;
+    width: 100%;
+  }
+  
+  .home-ll.logo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  
+  .home-a {
+    width: 100%;
+    display: block;
+    padding: 12px 15px;
+  }
+  
+  .admin-badge {
+    top: 0;
+    right: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .home-ll h1 {
+    font-size: 0.9rem;
+  }
+  
+  .home-a {
+    padding: 10px;
+  }
+  
+  .hamburger {
+    width: 22px;
+    height: 18px;
+  }
+}

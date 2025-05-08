@@ -1,0 +1,176 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+/* Full width wrapper */
+.page-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure Header and Footer components are full width */
+header, footer {
+    width: 100%;
+}
+
+/* Main container */
+.about-us-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+}
+
+/* Hero section */
+.hero {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+    border-radius: 8px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Company title styling */
+.company-title {
+    font-size: 2.5rem;
+    color: #2c7a54;
+    text-align: center;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Company story section */
+.company-story {
+    margin-bottom: 60px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.company-story p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+}
+
+.company-story p:last-child {
+    margin-bottom: 0;
+}
+
+/* Founder section */
+.founder-section {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 40px 0;
+    gap: 40px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.founder-image {
+    flex: 1;
+    min-width: 300px;
+}
+
+.image-container {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.image-container img:hover {
+    transform: scale(1.02);
+}
+
+.founder-info {
+    flex: 2;
+    min-width: 300px;
+}
+
+.founder-info h2 {
+    color: #2c7a54;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.founder-info h3 {
+    color: #4a9c2e;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 500;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.founder-info p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .founder-section {
+        flex-direction: column;
+    }
+    
+    .company-title {
+        font-size: 2rem;
+    }
+    
+    .founder-info h2 {
+        font-size: 1.8rem;
+    }
+    
+    .hero {
+        padding: 40px 0;
+    }
+    
+    .company-story, .founder-section {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .company-title {
+        font-size: 1.8rem;
+    }
+    
+    .founder-info h2 {
+        font-size: 1.6rem;
+    }
+    
+    .founder-info h3 {
+        font-size: 1.3rem;
+    }
+}

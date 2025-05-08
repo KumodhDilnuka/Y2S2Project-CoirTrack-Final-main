@@ -1,0 +1,6 @@
+PORT=5000
+MONGODB_URI=mongodb+srv://Kumodh:dKYNNo4NesGUYRDm@cluster0.6oxen.mongodb.net/
+EMAIL_USER=shainipunsara123@gmail.com
+EMAIL_PASSWORD=xhml nzhn qaro gvvq
+SUPPLIER_EMAIL=kumodhdilnuka456@gmail.com
+JWT_SECRET=coirtrack_secure_jwt_secret_key2024 
