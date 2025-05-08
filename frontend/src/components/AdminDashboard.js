@@ -191,6 +191,14 @@ const AdminDashboard = () => {
             <p className="text-sm text-rose-600">Manage inventory and suppliers</p>
           </Link>
           
+          <Link
+            to="/admin/users"
+            className="block bg-teal-50 p-4 rounded-lg border border-teal-100 hover:bg-teal-100 transition duration-200"
+          >
+            <h3 className="text-lg font-medium text-teal-700 mb-2">User Management</h3>
+            <p className="text-sm text-teal-600">Manage users, profiles and permissions</p>
+          </Link>
+          
           <div 
             className="block bg-gray-50 p-4 rounded-lg border border-gray-100 hover:bg-gray-100 transition duration-200 cursor-pointer"
             onClick={() => setShowCreateAdmin(!showCreateAdmin)}

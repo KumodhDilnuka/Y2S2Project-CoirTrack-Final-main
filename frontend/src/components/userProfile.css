@@ -1,0 +1,93 @@
+/* Profile Card Styles */
+.profile-card {
+  position: relative;
+}
+
+.profile-info {
+  position: relative;
+  z-index: 10;
+  padding-top: 25px;
+  margin-top: 10px;
+}
+
+.profile-name {
+  display: block;
+  font-size: 1.5rem;
+  color: #1F2937;
+  margin-top: 2.5rem !important;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  text-align: center;
+  word-break: break-word;
+}
+
+.profile-email {
+  color: #4B5563;
+  font-size: 0.95rem;
+  text-align: center;
+  word-break: break-word;
+  margin-bottom: 0.75rem;
+}
+
+.profile-card .rounded-full {
+  border: 3px solid white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix for "Enter your name" blue text overlay issue */
+.profile-card h3[contenteditable="true"],
+.profile-card div[contenteditable="true"] {
+  color: #1F2937 !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  position: static !important;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Override any blue text */
+.profile-card span[style*="color: blue"],
+.profile-card span[style*="color: #0000ff"],
+.profile-card span[style*="color:#0000ff"] {
+  color: #1F2937 !important;
+}
+
+/* Email Input Styles */
+.relative {
+  position: relative;
+}
+
+.relative .absolute {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+input[type="email"] {
+  padding-left: 2.5rem !important;
+  background-color: #fff;
+}
+
+/* Fix icon alignment */
+.text-green-600 {
+  color: #16a34a;
+  font-size: 1rem;
+}
+
+/* Fix input field for email */
+input#email {
+  padding: 0.625rem 1rem 0.625rem 2.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  width: 100%;
+  color: #1f2937;
+  background: white;
+}
+
+input#email:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+  outline: none;
+} 

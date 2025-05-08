@@ -7,9 +7,10 @@ import 'react-toastify/dist/ReactToastify.css';
 // Auth components
 import Login from './components/Login';
 import Register from './components/Register';
-import UserDashboard from './components/UserDashboard';
 import AdminDashboard from './components/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import UserProfile from './components/UserProfile';
+import UserManagement from './components/UserManagement';
 
 // Existing components
 import ItemManagement from './components/Additem';
@@ -60,10 +61,10 @@ function App() {
             
             {/* Protected User Routes */}
             <Route 
-              path="/dashboard" 
+              path="/profile" 
               element={
                 <ProtectedRoute>
-                  <UserDashboard />
+                  <UserProfile />
                 </ProtectedRoute>
               } 
             />
@@ -122,6 +123,14 @@ function App() {
               element={
                 <ProtectedRoute adminOnly={true}>
                   <AdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/admin/users" 
+              element={
+                <ProtectedRoute adminOnly={true}>
+                  <UserManagement />
                 </ProtectedRoute>
               } 
             />

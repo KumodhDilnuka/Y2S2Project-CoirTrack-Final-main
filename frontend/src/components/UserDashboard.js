@@ -103,6 +103,14 @@ const UserDashboard = () => {
             <h3 className="text-lg font-medium text-green-700 mb-2">About Us</h3>
             <p className="text-sm text-green-600">Learn more about our company and services</p>
           </Link>
+          
+          <Link
+            to="/profile"
+            className="block bg-rose-50 p-4 rounded-lg border border-rose-100 hover:bg-rose-100 transition duration-200"
+          >
+            <h3 className="text-lg font-medium text-rose-700 mb-2">My Profile</h3>
+            <p className="text-sm text-rose-600">View and update your profile information</p>
+          </Link>
         </div>
       </div>
     </div>

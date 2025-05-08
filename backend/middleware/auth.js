@@ -5,17 +5,35 @@ const User = require('../models/User');
 exports.protect = async (req, res, next) => {
   try {
     // Get token from header
-    const token = req.header('x-auth-token');
-    console.log('Received token:', token ? 'Token exists' : 'No token');
+    let token = req.header('x-auth-token');
+    
+    // Try alternative authorization header format
+    const authHeader = req.header('Authorization');
+    if (!token && authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
+      console.log('Using token from Authorization header');
+    }
+    
+    console.log('Auth middleware called with:');
+    console.log('- Method:', req.method);
+    console.log('- Path:', req.path);
+    console.log('- Headers:', Object.keys(req.headers).join(', '));
+    console.log('- Token received:', token ? `${token.substring(0, 10)}...` : 'No token');
+    console.log('- JWT Secret exists:', !!process.env.JWT_SECRET);
+    console.log('- JWT Secret length:', process.env.JWT_SECRET ? process.env.JWT_SECRET.length : 0);
     
     // Check if no token
     if (!token) {
       console.log('Auth failed: No token provided');
-      return res.status(401).json({ message: 'No token, authorization denied' });
+      return res.status(401).json({ 
+        success: false, 
+        message: 'No token, authorization denied' 
+      });
     }
     
     try {
       // Verify token
+      console.log('Verifying token...');
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       console.log('Token decoded successfully. User ID:', decoded.id);
       
@@ -24,7 +42,10 @@ exports.protect = async (req, res, next) => {
       
       if (!user) {
         console.log('Auth failed: User not found in database');
-        return res.status(401).json({ message: 'User not found' });
+        return res.status(401).json({ 
+          success: false, 
+          message: 'User not found' 
+        });
       }
       
       console.log('User authenticated:', {
@@ -37,11 +58,41 @@ exports.protect = async (req, res, next) => {
       next();
     } catch (verifyError) {
       console.log('Token verification failed:', verifyError.message);
-      return res.status(401).json({ message: 'Token is not valid', error: verifyError.message });
+      console.log('Token verification error name:', verifyError.name);
+      console.log('Token verification error stack:', verifyError.stack);
+      
+      if (verifyError.name === 'JsonWebTokenError') {
+        // If the signature is invalid
+        console.log('Invalid token signature. Check JWT_SECRET environment variable.');
+        return res.status(401).json({ 
+          success: false, 
+          message: 'Invalid token signature', 
+          error: verifyError.message 
+        });
+      } else if (verifyError.name === 'TokenExpiredError') {
+        // If the token has expired
+        console.log('Token has expired.');
+        return res.status(401).json({ 
+          success: false, 
+          message: 'Token has expired', 
+          error: verifyError.message 
+        });
+      }
+      
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Token is not valid', 
+        error: verifyError.message 
+      });
     }
   } catch (err) {
     console.error('Auth middleware error:', err);
-    res.status(500).json({ message: 'Server error in auth middleware', error: err.message });
+    console.error('Error stack:', err.stack);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error in auth middleware', 
+      error: err.message 
+    });
   }
 };
 

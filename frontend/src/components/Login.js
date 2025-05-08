@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaEnvelope, FaLock, FaLongArrowAltRight } from 'react-icons/fa';
+import Particles from 'react-tsparticles';
+import { loadSlim } from 'tsparticles-slim';
 import authService from '../services/authService';
+import './auth.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +14,8 @@ const Login = () => {
     password: ''
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [animateForm, setAnimateForm] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,9 +24,16 @@ const Login = () => {
     if (authService.isLoggedIn()) {
       navigate('/');
     }
+    
+    // Add animation class after component mounts
+    setTimeout(() => setAnimateForm(true), 500);
   }, [navigate]);
 
   const { email, password } = formData;
+
+  const particlesInit = async (engine) => {
+    await loadSlim(engine);
+  };
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -40,10 +54,13 @@ const Login = () => {
       // Login user
       await authService.login(formData);
       
-      // Force a window reload to update all components with the new auth state
-      window.location.href = location.state?.from?.pathname || '/';
-      
-      toast.success('Login successful!');
+      // Show success animation
+      setAnimateForm(false);
+      setTimeout(() => {
+        toast.success('Login successful!');
+        // Force a window reload to update all components with the new auth state
+        window.location.href = location.state?.from?.pathname || '/';
+      }, 800);
     } catch (error) {
       setIsLoading(false);
       const errorMessage = error.response?.data?.msg || 'Login failed';
@@ -52,67 +69,203 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={onSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={email}
-                onChange={onChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={onChange}
-              />
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    <div className="auth-container">
+      {/* Particle Background */}
+      <Particles
+        id="tsparticles"
+        init={particlesInit}
+        options={{
+          background: {
+            color: {
+              value: "#16182f",
+            },
+          },
+          fpsLimit: 60,
+          particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: "#ffffff" },
+            shape: {
+              type: "circle",
+            },
+            opacity: {
+              value: 0.3,
+            },
+            size: {
+              value: 3,
+              random: true,
+            },
+            links: {
+              enable: true,
+              distance: 150,
+              color: "#ffffff",
+              opacity: 0.2,
+              width: 1
+            },
+            move: {
+              enable: true,
+              speed: 2,
+              direction: "none",
+              random: false,
+              straight: false,
+              outMode: "out",
+              bounce: false,
+              attract: { enable: false, rotateX: 600, rotateY: 1200 }
+            }
+          },
+          interactivity: {
+            detectsOn: "canvas",
+            events: {
+              onHover: { enable: true, mode: "repulse" },
+              onClick: { enable: true, mode: "push" },
+              resize: true
+            },
+            modes: {
+              repulse: { distance: 100, duration: 0.4 },
+              push: { particles_nb: 4 },
+            }
+          },
+          detectRetina: true
+        }}
+        className="particles-container"
+      />
+      
+      {/* Content */}
+      <div className="auth-content">
+        <AnimatePresence>
+          {animateForm && (
+            <motion.div
+              className="auth-form-container"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.5 }}
             >
-              {isLoading ? 'Signing in...' : 'Sign in'}
-            </button>
-          </div>
-          
-          <div className="flex items-center justify-center">
-            <div className="text-sm">
-              <Link to="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Don't have an account? Register
-              </Link>
-            </div>
-          </div>
-        </form>
+              {/* Left Panel - Welcome/Branding */}
+              <div className="auth-welcome-panel">
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.8 }}
+                  className="auth-welcome-content"
+                >
+                  <h1 className="auth-title">CoirTrack</h1>
+                  <div className="auth-title-underline"></div>
+                  <p className="auth-welcome-text">
+                    Welcome back! Log in to access your account and manage your coir products efficiently.
+                  </p>
+                  <div className="auth-alt-action">
+                    <span>Don't have an account?</span>
+                    <Link to="/register" className="auth-alt-link">
+                      Sign up
+                    </Link>
+                  </div>
+                </motion.div>
+              </div>
+              
+              {/* Right Panel - Login Form */}
+              <div className="auth-form-panel">
+                <div className="auth-form-wrapper">
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.4, duration: 0.8 }}
+                  >
+                    <h2 className="auth-form-title">Sign In</h2>
+                    <p className="auth-form-subtitle">Please sign in to your account to continue</p>
+                    
+                    <form onSubmit={onSubmit}>
+                      <div className="auth-form-group">
+                        <label htmlFor="email" className="auth-label">
+                          Email Address
+                        </label>
+                        <div className="auth-input-wrapper">
+                          <div className="auth-input-icon">
+                            <FaEnvelope />
+                          </div>
+                          <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            autoComplete="email"
+                            required
+                            className="auth-input"
+                            placeholder="youremail@example.com"
+                            value={email}
+                            onChange={onChange}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="auth-form-group">
+                        <div className="auth-password-header">
+                          <label htmlFor="password" className="auth-label">
+                            Password
+                          </label>
+                        </div>
+                        <div className="auth-input-wrapper">
+                          <div className="auth-input-icon">
+                            <FaLock />
+                          </div>
+                          <input
+                            id="password"
+                            name="password"
+                            type={showPassword ? "text" : "password"}
+                            autoComplete="current-password"
+                            required
+                            className="auth-input"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={onChange}
+                          />
+                          <div 
+                            className="auth-password-toggle"
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            <span>
+                              {showPassword ? 'Hide' : 'Show'}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="auth-form-submit">
+                        <button
+                          type="submit"
+                          disabled={isLoading}
+                          className="auth-submit-button"
+                        >
+                          {isLoading ? (
+                            <span className="auth-button-content">
+                              <svg className="auth-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="auth-spinner-track" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="auth-spinner-path" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                              Signing in...
+                            </span>
+                          ) : (
+                            <span className="auth-button-content">
+                              Sign in 
+                              <FaLongArrowAltRight className="auth-icon-right" />
+                            </span>
+                          )}
+                        </button>
+                      </div>
+                    </form>
+                    
+                    <div className="auth-footer">
+                      <p className="auth-footer-text">
+                        Don't have an account?{' '}
+                        <Link to="/register" className="auth-footer-link">
+                          Create account
+                        </Link>
+                      </p>
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

@@ -14,6 +14,10 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     lowercase: true
   },
+  phone: {
+    type: String,
+    trim: true
+  },
   password: {
     type: String,
     required: true
@@ -22,6 +26,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     enum: ['user', 'admin'],
     default: 'user'
+  },
+  status: {
+    type: String,
+    enum: ['active', 'disabled'],
+    default: 'active'
   },
   createdAt: {
     type: Date,
