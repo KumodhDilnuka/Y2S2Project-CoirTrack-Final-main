@@ -22,6 +22,7 @@ const InquiryForm = () => {
   const [formError, setFormError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [charCount, setCharCount] = useState({ title: 0, description: 0 });
 
   // Inquiries list state
   const [inquiries, setInquiries] = useState([]);
@@ -113,10 +114,20 @@ const InquiryForm = () => {
   };
 
   const handleFormChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    
+    // Update character count
+    if (name === 'title' || name === 'description') {
+      setCharCount(prev => ({
+        ...prev,
+        [name]: value.length
+      }));
+    }
+    
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -124,6 +135,16 @@ const InquiryForm = () => {
     
     if (!formData.title || !formData.description || !formData.category || !formData.email || !formData.name) {
       setFormError('Please fill in all fields');
+      return;
+    }
+
+    if (formData.title.length > 50) {
+      setFormError('Subject must be 50 characters or less');
+      return;
+    }
+
+    if (formData.description.length > 1000) {
+      setFormError('Message must be 1000 characters or less');
       return;
     }
 
@@ -256,7 +277,11 @@ const InquiryForm = () => {
             value={formData.title}
             onChange={handleFormChange}
             placeholder="Inquiry Subject"
+            maxLength={50}
           />
+          <div className="char-count">
+            {charCount.title}/50 characters
+          </div>
         </div>
         
         <div className="form-group">
@@ -285,7 +310,11 @@ const InquiryForm = () => {
             value={formData.description}
             onChange={handleFormChange}
             placeholder="Please provide details about your inquiry"
+            maxLength={1000}
           ></textarea>
+          <div className="char-count">
+            {charCount.description}/1000 characters
+          </div>
         </div>
         
         <div className="form-actions">
